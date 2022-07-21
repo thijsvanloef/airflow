@@ -19,3 +19,5 @@ jobs:
           # Optional, literal inventory file contents
           inventory: |
             [all]
+          options: |
+            -vvv
