@@ -1,6 +1,9 @@
 ---
 - hosts: localhost
   tasks:
+    - name: Install Dependancies
+      ansible.builtin.pip:
+       name: docker==4.4.4
     - name: Build the Airflow Image
       community.docker.docker_image:
         build:
