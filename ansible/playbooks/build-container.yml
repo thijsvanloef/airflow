@@ -1,0 +1,9 @@
+---
+- name: Build the Airflow Image
+  community.docker.docker_image:
+    build:
+      path: .
+    name: yoastseo/airflowv2
+    tag: latest
+    push: no
+    source: build
