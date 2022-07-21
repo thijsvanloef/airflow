@@ -1,0 +1,21 @@
+name: Build Image
+on: 
+  push:
+    branches: [ main ]
+
+jobs:
+  push:
+      runs-on: ubuntu-latest
+      steps:
+       - uses: actions/checkout@v2
+
+       - name: Run Build playbook
+         uses: dawidd6/action-ansible-playbook@v2
+         with:
+          # Required, playbook filepath
+          playbook: build-container
+          # Optional, directory where playbooks live
+          directory: ./ansible/playbooks/
+          # Optional, literal inventory file contents
+          inventory: |
+            [all]
