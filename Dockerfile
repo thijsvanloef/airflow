@@ -7,6 +7,7 @@ USER root
 
 # Install Needed Packages & Cleanup after
 RUN apt-get update && apt-get install -y \
+    curl \
     git \
     gcc \
     && apt-get clean autoclean  \
@@ -17,9 +18,7 @@ RUN apt-get update && apt-get install -y \
 USER airflow
 
 # Create and set workdir
-RUN mkdir -p /opt/airflow/singer \
-&& mkdir -p /opt/airflow/singer/config \
-&& mkdir -p /opt/airflow/singer/state \
+RUN mkdir -p /opt/airflow/singer 
 WORKDIR /opt/airflow/singer
 
 # Create virtual environments to isolate dependancies
