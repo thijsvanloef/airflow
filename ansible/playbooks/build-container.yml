@@ -4,10 +4,12 @@
     - name: Install Dependancies
       ansible.builtin.pip:
        name: docker==4.4.4
+    - name: where am i?
+      command: "ls"
     - name: Build the Airflow Image
       community.docker.docker_image:
         build:
-          path: ../../Dockerfile
+          path: ./Dockerfile
         name: yoastseo/airflowv2
         tag: latest
         push: no
