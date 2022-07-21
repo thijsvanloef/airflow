@@ -6,7 +6,7 @@ LABEL maintainer="devops@yoast.com"
 USER root
 
 # Install Needed Packages & Cleanup after
-RUN apt-get update && apt-get upgrade -y && apt-get install -y \
+RUN apt-get update && apt-get install -y \
     git \
     gcc \
     && apt-get clean autoclean  \
