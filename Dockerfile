@@ -17,7 +17,9 @@ RUN apt-get update && apt-get install -y \
 USER airflow
 
 # Create and set workdir
-RUN mkdir -p /opt/airflow/singer
+RUN mkdir -p /opt/airflow/singer \
+&& mkdir -p /opt/airflow/singer/config \
+&& mkdir -p /opt/airflow/singer/state \
 WORKDIR /opt/airflow/singer
 
 # Create virtual environments to isolate dependancies
