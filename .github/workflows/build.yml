@@ -2,6 +2,9 @@ name: Build & Push Image
 on: 
   push:
     branches: [ main ]
+  schedule:
+    # Run every hour to install latest singer taps/targets
+    - cron: '0 * * * *'
 
 jobs:
   Docker-Image:
