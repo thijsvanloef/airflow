@@ -7,7 +7,7 @@ USER root
 
 # Install Needed Packages & Cleanup after
 RUN apt-get update && apt-get install -y \
-    curl \
+    jq \
     git \
     gcc \
     && apt-get clean autoclean  \
@@ -17,29 +17,14 @@ RUN apt-get update && apt-get install -y \
 # Switch to Airflow user
 USER airflow
 
-# Create and set workdir
-RUN mkdir -p /opt/airflow/singer 
+# Create and set workdirs
+RUN mkdir -p /opt/airflow/singer \
+&& mkdir -p /opt/airflow/singer/config \
+&& mkdir -p /opt/airflow/singer/state
+
 WORKDIR /opt/airflow/singer
 
 COPY ./scripts/init.sh /opt/airflow/singer/
 
-# Create virtual environments to isolate dependancies
+# Run the init script to create virtual environments & install the taps/targets
 RUN ./init.sh
-
-# Install Taps into Virtual Environments
-RUN /opt/airflow/singer/singer-activecampaign/bin/pip install --no-user             git+https://github.com/Yoast/tap-activecampaign \
-&& /opt/airflow/singer/singer-adyen/bin/pip install --no-user                       git+https://github.com/Yoast/singer-tap-adyen \
-&& /opt/airflow/singer/singer-basecone/bin/pip install --no-user                    git+https://github.com/Yoast/singer-tap-basecone \
-&& /opt/airflow/singer/singer-bq/bin/pip install --no-user                          git+https://github.com/Yoast/target-bigquery \
-&& /opt/airflow/singer/singer-builtwith/bin/pip install --no-user                   git+https://github.com/Yoast/singer-tap-builtwith \
-&& /opt/airflow/singer/singer-coosto/bin/pip install --no-user                      git+https://github.com/Yoast/singer-tap-coosto \
-&& /opt/airflow/singer/singer-fixer/bin/pip install --no-user                       git+https://github.com/Yoast/tap-fixerio \
-&& /opt/airflow/singer/singer-postmark/bin/pip install --no-user                    git+https://github.com/Yoast/singer-tap-postmark \
-&& /opt/airflow/singer/singer-shopify-shops/bin/pip install --no-user               git+https://github.com/Yoast/singer-tap-shopify-shops \
-&& /opt/airflow/singer/singer-tap-openexchange/bin/pip install --no-user            git+https://github.com/Yoast/singer-tap-open-exchange-rate \
-&& /opt/airflow/singer/singer-tap-shopify-partners/bin/pip install --no-user        git+https://github.com/Yoast/singer-tap-shopify-partners \
-&& /opt/airflow/singer/singer-twinfield/bin/pip install --no-user                   git+https://github.com/Yoast/singer-tap-twinfield \
-&& /opt/airflow/singer/singer-wordpress-plugin-stats/bin/pip install --no-user      git+https://github.com/Yoast/singer-tap-wordpress-plugin-stats \
-&& /opt/airflow/singer/singer-wordpress-reviews/bin/pip install --no-user           git+https://github.com/Yoast/singer-tap-wordpress-reviews \
-&& /opt/airflow/singer/singer-wordpress-stats/bin/pip install --no-user             git+https://github.com/Yoast/singer-tap-wordpress-stats \
-&& /opt/airflow/singer/singer-wordpress-support-forums/bin/pip install --no-user    git+https://github.com/Yoast/singer-tap-wordpress-support-forums
