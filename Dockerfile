@@ -21,25 +21,10 @@ USER airflow
 RUN mkdir -p /opt/airflow/singer 
 WORKDIR /opt/airflow/singer
 
+COPY ./scripts/init.sh /opt/airflow/singer/
+
 # Create virtual environments to isolate dependancies
-RUN python3 -m venv \
-    singer-activecampaign \
-    singer-adyen \
-    singer-basecone \
-    singer-bq \
-    singer-builtwith \
-    singer-coosto \
-    singer-fixer \
-    singer-paypal \
-    singer-postmark \
-    singer-shopify-shops \
-    singer-tap-openexchange \
-    singer-tap-shopify-partners \
-    singer-twinfield \
-    singer-wordpress-plugin-stats \
-    singer-wordpress-reviews \
-    singer-wordpress-stats \
-    singer-wordpress-support-forums
+RUN ./init.sh
 
 # Install Taps into Virtual Environments
 RUN /opt/airflow/singer/singer-activecampaign/bin/pip install --no-user             git+https://github.com/Yoast/tap-activecampaign \
